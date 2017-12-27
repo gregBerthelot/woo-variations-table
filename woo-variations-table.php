@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Woo Variations table
+Plugin Name: Woo Variations Table
 Plugin URI: https://lb.linkedin.com/in/alaa-rihan-6971b686
 Description: Show WooCommerce variable products variations as table with filters and sorting instead of normal dropdowns.
 Author: Alaa Rihan
