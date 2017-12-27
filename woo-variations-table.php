@@ -103,7 +103,7 @@ function woo_variations_table_create_multi_select_options($id, $columns, $values
 			$checked = " checked='checked' ";
 		}
 		echo "<li>\n";
-		echo "<input type='checkbox' name='woo_variations_table_columns[$key]' $checked />".$labels[$key]."\n";
+		echo "<label><input type='checkbox' name='woo_variations_table_columns[$key]' $checked />".$labels[$key]."</label>\n";
 		echo "</li>\n";
 	}
 	echo "</ul>\n";
