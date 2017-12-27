@@ -84,7 +84,7 @@ function woo_variations_table_settings_page_callback() {
           <tr valign="top">
           <th scope="row"><?php echo __('Show Attributes', 'woo-variations-table'); ?></th>
           <td><ul style="margin-top: 5px;" class='mnt-checklist' id='woo-variations-table-attributes'><li>
-            <input type='checkbox' name='woo_variations_table_show_attributes' <?php echo $showAttributes ? "checked='checked'" : '';  ?> /> Show Attributes
+            <label><input type='checkbox' name='woo_variations_table_show_attributes' <?php echo $showAttributes ? "checked='checked'" : '';  ?> /> Show Product Attributes</label>
           </li></ul></td>
           </tr>
       </table>
