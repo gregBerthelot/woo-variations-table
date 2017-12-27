@@ -56,6 +56,7 @@ function woo_variations_table_settings_page_callback() {
   'weight_html' => 0,
   'stock' => 1,
   'price_html' => 1,
+  'quantity' => 1,
   );
   $columns_labels =  array( 
   'image_link' => __('Thumbnail', 'woo-variations-table'),
@@ -65,6 +66,7 @@ function woo_variations_table_settings_page_callback() {
   'weight_html' => __('Weight', 'woo-variations-table'),
   'stock' =>  __('Stock', 'woo-variations-table'),
   'price_html' => __('Price', 'woo-variations-table'),
+  'quantity' => __('Quantity', 'woo-variations-table'),
   );
   $columns = get_option('woo_variations_table_columns', $default_columns);
   $showAttributes = get_option('woo_variations_table_show_attributes', '');
@@ -274,7 +276,7 @@ function variations_table_print_table(){
                       <span class="arrow" :class="sortOrders['stock'] > 0 ? 'asc' : 'dsc'">
                       </span>
                     </th>
-                    <th class="quantity"><?php echo __("Quantity", 'woo-variations-table'); ?></th>
+                    <th class="quantity" v-if="activeColumns['quantity'] == 'on'"><?php echo __("Quantity", 'woo-variations-table'); ?></th>
                     <th class="add-to-cart"></th>
                   </tr>
                 </thead>
@@ -297,7 +299,7 @@ function variations_table_print_table(){
                         <span v-else class="out-of-stock"><?php echo __("Out of Stock", 'woo-variations-table'); ?></span>
                       </span>
                     </td>
-                    <td class="quantity"><input :ref="'quantity-'+entry.variation_id" value="1" type="number" step="1" min="1" name="quantity" data-title="Qty" title="Qty" class="input-text qty text" size="4" pattern="[0-9]*" inputmode="numeric"></td>
+                    <td class="quantity" v-if="activeColumns['quantity'] == 'on'"><input :ref="'quantity-'+entry.variation_id" value="1" type="number" step="1" min="1" name="quantity" data-title="Qty" title="Qty" class="input-text qty text" size="4" pattern="[0-9]*" inputmode="numeric"></td>
                     <td class="add-to-cart"><button :ref="'variation-'+entry.variation_id" @click="addToCart(entry)" type="submit" class="single_add_to_cart_button button alt" :class="{added: entry.added}"><?php echo __("Add to Cart", 'woo-variations-table'); ?></button></td>
                   </tr>
                 </tbody>

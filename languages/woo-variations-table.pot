@@ -52,6 +52,10 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
+#: woo-variations-table.php:67
+msgid "Quantity"
+msgstr ""
+
 #: woo-variations-table.php:73
 msgid "Woo Variations Table Settings"
 msgstr ""
