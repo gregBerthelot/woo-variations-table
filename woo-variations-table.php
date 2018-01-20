@@ -137,6 +137,13 @@ function variations_table_scripts() {
 		wp_localize_script( 'woo-variations-table', 'localData', array(
 			'ajaxURL' => admin_url( 'admin-ajax.php?add_variation_to_cart=1' ),
 		) );
+        wp_localize_script( 'woo-variations-table', 'lang', array(
+            'sku' => __( 'SKU', 'woo-variations-table' ),
+            'variation_description' => __( 'Description', 'woo-variations-table' ),
+            'weight_html' => __( 'Weight', 'woo-variations-table' ),
+            'dimensions' => __( 'Dimensions', 'woo-variations-table' ),
+            'price_html' => __( 'Price', 'woo-variations-table' ),
+        ) );
 		wp_enqueue_style( 'woo-variations-table-style', plugins_url( 'css/woo-variations-table.css', __FILE__ ), array(), WOO_VARIATIONS_TABLE_VERSION);
 	}
 }
@@ -342,11 +349,11 @@ function variations_table_print_table(){
                     searchQuery: '',
                     gridColumns: [
                         {key: 'image_link', title: '', type: 'image'},
-                        {key: 'sku', title: 'SKU', type: 'text'},
-                        {key: 'variation_description', title: 'Description', type: 'html'},
-                        {key: 'weight_html', title: 'Weight', type: 'text'},
-                        {key: 'dimensions', title: 'Dimensions', type: 'text'},
-                        {key: 'price_html', title: 'Price', type: 'html'}
+                        {key: 'sku', title: lang.sku, type: 'text'},
+                        {key: 'variation_description', title: lang.variation_description, type: 'html'},
+                        {key: 'weight_html', title: lang.weight_html, type: 'text'},
+                        {key: 'dimensions', title: lang.dimensions, type: 'text'},
+                        {key: 'price_html', title: lang.price_html, type: 'html'}
                     ],
                     activeColumns: activeColumns,
                     gridData: variations,
