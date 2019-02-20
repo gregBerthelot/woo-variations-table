@@ -1,20 +1,20 @@
 <?php
 /*
-Plugin Name: Woo Variations table
+Plugin Name: Woo Variations Table
 Plugin URI: https://lb.linkedin.com/in/alaa-rihan-6971b686
 Description: Show WooCommerce variable products variations as table with filters and sorting instead of normal dropdowns.
 Author: Alaa Rihan
 Author URI: https://lb.linkedin.com/in/alaa-rihan-6971b686
 Text Domain: woo-variations-table
 Domain Path: /languages/
-Version: 1.3.8
+Version: 1.3.10
 */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
 
-define("WOO_VARIATIONS_TABLE_VERSION", '1.3.8');
+define("WOO_VARIATIONS_TABLE_VERSION", '1.3.10');
 
 // Check if WooCommerce is enabled
 add_action('plugins_loaded', 'check_woocommerce_enabled', 1);
@@ -56,6 +56,7 @@ function woo_variations_table_settings_page_callback() {
   'weight_html' => 0,
   'stock' => 1,
   'price_html' => 1,
+  'quantity' => 1,
   );
   $columns_labels =  array( 
   'image_link' => __('Thumbnail', 'woo-variations-table'),
@@ -65,6 +66,7 @@ function woo_variations_table_settings_page_callback() {
   'weight_html' => __('Weight', 'woo-variations-table'),
   'stock' =>  __('Stock', 'woo-variations-table'),
   'price_html' => __('Price', 'woo-variations-table'),
+  'quantity' => __('Quantity', 'woo-variations-table'),
   );
   $columns = get_option('woo_variations_table_columns', $default_columns);
   $showAttributes = get_option('woo_variations_table_show_attributes', '');
@@ -82,7 +84,7 @@ function woo_variations_table_settings_page_callback() {
           <tr valign="top">
           <th scope="row"><?php echo __('Show Attributes', 'woo-variations-table'); ?></th>
           <td><ul style="margin-top: 5px;" class='mnt-checklist' id='woo-variations-table-attributes'><li>
-            <input type='checkbox' name='woo_variations_table_show_attributes' <?php echo $showAttributes ? "checked='checked'" : '';  ?> /> Show Attributes
+            <label><input type='checkbox' name='woo_variations_table_show_attributes' <?php echo $showAttributes ? "checked='checked'" : '';  ?> /> Show Product Attributes</label>
           </li></ul></td>
           </tr>
       </table>
@@ -103,7 +105,7 @@ function woo_variations_table_create_multi_select_options($id, $columns, $values
 			$checked = " checked='checked' ";
 		}
 		echo "<li>\n";
-		echo "<input type='checkbox' name='woo_variations_table_columns[$key]' $checked />".$labels[$key]."\n";
+		echo "<label><input type='checkbox' name='woo_variations_table_columns[$key]' $checked />".$labels[$key]."</label>\n";
 		echo "</li>\n";
 	}
 	echo "</ul>\n";
@@ -237,10 +239,12 @@ function variations_table_print_table(){
             for($i=0; count($name) > $i; $i++){
                 $terms = array_values($name);
                 $term = get_term_by('slug', $terms[$i], $key);
+                $slug = array_values($name);
+                $slug = $slug[$i];
                 if($term){
-                $attrs[$key]['options'][]=array('name'=>$term->name, 'slug'=>array_values($name)[$i]);
+                  $attrs[$key]['options'][]=array('name'=>$term->name, 'slug'=> $slug);
                 }else{
-                  $attrs[$correctkey]['options'][]= array('name'=>array_values($name)[$i], 'slug'=>array_values($name)[$i]);
+                  $attrs[$correctkey]['options'][]= array('name'=>$slug, 'slug'=>$slug);
                 }
             }
         }
@@ -281,7 +285,7 @@ function variations_table_print_table(){
                       <span class="arrow" :class="sortOrders['stock'] > 0 ? 'asc' : 'dsc'">
                       </span>
                     </th>
-                    <th class="quantity"><?php echo __("Quantity", 'woo-variations-table'); ?></th>
+                    <th class="quantity" v-if="activeColumns['quantity'] == 'on'"><?php echo __("Quantity", 'woo-variations-table'); ?></th>
                     <th class="add-to-cart"></th>
                   </tr>
                 </thead>
@@ -304,7 +308,7 @@ function variations_table_print_table(){
                         <span v-else class="out-of-stock"><?php echo __("Out of Stock", 'woo-variations-table'); ?></span>
                       </span>
                     </td>
-                    <td class="quantity"><input :ref="'quantity-'+entry.variation_id" value="1" type="number" step="1" min="1" name="quantity" data-title="Qty" title="Qty" class="input-text qty text" size="4" pattern="[0-9]*" inputmode="numeric"></td>
+                    <td class="quantity" v-if="activeColumns['quantity'] == 'on'"><input :ref="'quantity-'+entry.variation_id" value="1" type="number" step="1" min="1" name="quantity" data-title="Qty" title="Qty" class="input-text qty text" size="4" pattern="[0-9]*" inputmode="numeric"></td>
                     <td class="add-to-cart"><button :ref="'variation-'+entry.variation_id" @click="addToCart(entry)" type="submit" class="single_add_to_cart_button button alt" :class="{added: entry.added}"><?php echo __("Add to Cart", 'woo-variations-table'); ?></button></td>
                   </tr>
                 </tbody>
